@@ -21,12 +21,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+    - name: Check status
+      run: |
+        curl --url https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }}/status \
+        --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}'
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
