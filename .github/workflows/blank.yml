@@ -24,12 +24,13 @@ jobs:
         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | head -n 2 | tail -n 1 | grep "success"
     - name: Generate URL file
       if: ${{ success() }}
-      run: echo "https://some.url.somewhere" > url.txt
-    - name: Upload artifact
+      run: echo "[{\"message\": \"https://some.url.somewhere\"}]" > annotations.json
+    - name: Annotate
       if: ${{ success() }}  
-      uses: actions/upload-artifact@v2
+      uses: Attest/annotations-action@v0.1.0
       with:
-          name: URL
-          path: url.txt
+        token: ${{ secrets.GITHUB_TOKEN }}
+        input: './annotations.json'
+        title: 'Annotations'
     
 
