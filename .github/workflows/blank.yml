@@ -9,27 +9,27 @@ env:
 
 jobs:
   Check-statuses:
+    if: github.ref != ${{env.MAIN_BRANCH}}
     runs-on: ubuntu-latest
     
     steps:
     - name: Check status
-      if: github.ref != ${{env.MAIN_BRANCH}}
       run: |
         curl -s --url https://api.github.com/repos/${{ github.repository }}/commits/${{ github.sha }}/status \
         --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' | head -n 2 | tail -n 1 | grep "success"
     - name: Set up Python
-      if: success() && github.ref != ${{env.MAIN_BRANCH}}
+      if: ${{ success() }}
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
     - name: Install STPM
-      if: success() && github.ref != ${{env.MAIN_BRANCH}}
+      if: ${{ success() }}
       run: pip install git+https://github.com/antmicro/symbiflow-tools-package-manager@initial-release#egg=stpm
     - name: Get latest artifact name
-      if: success() && github.ref != ${{env.MAIN_BRANCH}}
+      if: ${{ success() }}
       run: mkdir output && symbiflow_get_latest_artifact_url > output/latest && cat output/latest && echo ${{env.MAIN_BRANCH}}
     - name: Upload artifact URL file
-      if: success() && github.ref != ${{env.MAIN_BRANCH}}
+      if: ${{ success() }}
       uses: weslenng/gcp-storage-sync@master
       env:
         GCP_SERVICE_ACCOUNT_KEY_FILE: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_FILE }}
