@@ -4,13 +4,13 @@ name: Check all tests
 
 on:
   status:
-
+env: 
+  MAIN_BRANCH: "refs/heads/main"
 
 jobs:
   Check-statuses:
     runs-on: ubuntu-latest
-    env: 
-      MAIN_BRANCH: "refs/heads/main"
+    
     steps:
     - name: Check status
       if: github.ref != ${{env.MAIN_BRANCH}}
@@ -27,7 +27,7 @@ jobs:
       run: pip install git+https://github.com/antmicro/symbiflow-tools-package-manager@initial-release#egg=stpm
     - name: Get latest artifact name
       if: success() && github.ref != ${{env.MAIN_BRANCH}}
-      run: mkdir output && symbiflow_get_latest_artifact_url > output/latest && cat output/latest
+      run: mkdir output && symbiflow_get_latest_artifact_url > output/latest && cat output/latest && echo ${{env.MAIN_BRANCH}}
     - name: Upload artifact URL file
       if: success() && github.ref != ${{env.MAIN_BRANCH}}
       uses: weslenng/gcp-storage-sync@master
