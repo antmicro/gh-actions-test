@@ -4,12 +4,10 @@ name: Check all tests
 
 on:
   status:
-env: 
-  MAIN_BRANCH: "refs/heads/main"
 
 jobs:
   Check-statuses:
-    if: github.ref != ${{env.MAIN_BRANCH}}
+    if: github.ref != "refs/heads/main"
     runs-on: ubuntu-latest
     
     steps:
