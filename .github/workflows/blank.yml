@@ -32,7 +32,7 @@ jobs:
       run: pip install git+https://github.com/antmicro/symbiflow-tools-package-manager@initial-release#egg=stpm
     - name: Get latest artifact name
       if: ${{ success() }}  
-      run: symbiflow_get_latest_artifact_url -> latest
+      run: symbiflow_get_latest_artifact_url > latest
     - name: Upload artifact URL file
       if: ${{ success() }}
       uses: weslenng/gcp-storage-sync@master
