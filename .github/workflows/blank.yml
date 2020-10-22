@@ -32,13 +32,13 @@ jobs:
       run: pip install git+https://github.com/antmicro/symbiflow-tools-package-manager@initial-release#egg=stpm
     - name: Get latest artifact name
       if: ${{ success() }}  
-      run: symbiflow_get_latest_artifact_url > latest && ls -la && cat latest
+      run: mkdir output && symbiflow_get_latest_artifact_url > output/latest
     - name: Upload artifact URL file
       if: ${{ success() }}
       uses: weslenng/gcp-storage-sync@master
       env:
         GCP_SERVICE_ACCOUNT_KEY_FILE: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_FILE }}
         GCP_STORAGE_BUCKET: ${{ secrets.GCP_STORAGE_BUCKET }}
-        SOURCE_DIR: "latest"
+        SOURCE_DIR: "output"
     
 
