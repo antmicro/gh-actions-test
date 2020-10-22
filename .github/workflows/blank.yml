@@ -13,10 +13,6 @@ jobs:
   Check-statuses:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        python-version: [3.6, 3.7, 3.8]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -30,7 +26,7 @@ jobs:
       if: ${{ success() }}
       uses: actions/setup-python@v1
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.8
     - name: Install STPM
       if: ${{ success() }}
       run: pip install git+https://github.com/antmicro/symbiflow-tools-package-manager@initial-release#egg=stpm
